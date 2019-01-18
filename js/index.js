@@ -73,7 +73,7 @@ function funAcceso(){
 	var usuario = $('#usuario').val();
 	var clave = $('#clave').val();
 
-	$.get("home.xml", function (xml) { 
+	$.get("config.xml", function (xml) {
 
 	    $(xml).find("IniciarSesion").each(function () {
 
