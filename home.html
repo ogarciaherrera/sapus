@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+
+<html>
+
+	<head>
+
+		<title>Usuarios SAP</title>
+
+	  <meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	  <link rel="stylesheet" href="jq/css/themes/default/jquery.mobile-1.4.5.min.css"/>
+		<link rel="stylesheet" href="css/themes/cafe.min.css" />
+		<link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" />
+
+	  <script src="jq/js/jquery.min.js"></script>
+	  <script src="jq/js/jquery.blockUI.js"></script>
+	  <script src="jq/js/jquery.mobile-1.4.5.min.js"></script>
+	  <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+		<script src="js/home.js"></script>
+	  
+	</head>
+
+	<body>
+
+		<div data-role="page" data-theme="b" id="home">
+
+			<div data-role="header">
+
+				<h1>Desbloqueo Usuarios</h1>
+
+			</div>
+
+			<div data-role="content" class="centrar">
+
+				<div id="avisos3" class="ui-body ui-body-b" style="display: none; cursor: default; margin: 0 auto; ">
+					<h4 id="avisotit3"></h4><br>
+					<button id="aceptado" class="ui-btn ui-btn-b ui-btn-inline">Aceptar</button>
+				</div>
+
+				<table style="margin-left:15%;margin-top:30%">
+
+					<tr>
+						<td class="derecha">Usuario:</td>
+						<td><input type="text" id="usnombre" name="usnombre" /></td>
+					</tr>
+
+					<tr>
+						<td>&nbsp</td>
+						<td>&nbsp</td>
+					</tr>
+
+					<tr>
+						<td>&nbsp</td>
+						<td><button id="desbloquear" name="desbloquear" >Desbloquear</button></td>
+					</tr>
+
+					<tr>
+						<td>&nbsp</td>
+						<td>&nbsp</td>
+					</tr>
+
+					<tr>
+						<td>&nbsp</td>
+						<td>&nbsp</td>
+					</tr>
+
+					<tr>
+						<td>&nbsp</td>
+						<td>&nbsp</td>
+					</tr>
+
+					<tr>
+						<td>&nbsp</td>
+						<td><button id="cerrarsesion" name="cerrarsesion" class="ui-btn ui-btn-b">Cerrar Sesión</button></td>
+					</tr>
+
+				</table>
+			
+			</div>
+
+			<div data-role="footer" id="pie" data-position="fixed"><h1>SAP - Usuarios</h1></div>			
+
+		</div>
+
+	</body>
+
+</html>

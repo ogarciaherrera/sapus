@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiciosWeb>
+  <IniciarSesion DirecionURL="http://localhost:4395/WsSapUsuarios.asmx/iniciar_sesion" Descripcion="Inicio de Sesion" />
+  <Desbloqueo DirecionURL="http://localhost:4395/WsSapUsuarios.asmx/desbloquea_usuario" Descripcion="Desbloquea Usuario" />
+</ServiciosWeb>
