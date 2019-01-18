@@ -49,7 +49,7 @@ function desbloquear(sistemaid, usuario, clave) {
 
     var usnombre = $('#usnombre').val();
 
-    $.get("config.xml", function (xml) {
+    $.get("home.xml", function (xml) {
 
         $(xml).find("Desbloqueo").each(function () {
 
