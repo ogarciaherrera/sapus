@@ -16,5 +16,10 @@
   <author href="https://build.phonegap.com" email="support@phonegap.com">
       OJGarciaH
   </author>
+	
+	<content src="index.html" />
+	<access origin="*" />
+	<icon src="sapuser.png" />
+	<splash src="sapuser.png" />
 
 </widget>
