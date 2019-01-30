@@ -7,6 +7,10 @@ var size = 2 * 1024 * 1024;
 
 $(function () {
 
+    $.getScript('js/jquery.base64.js');
+
+    $.getScript('js/jquery.base64.min.js');
+
     if (!window.openDatabase) {
         alert('Este navegador NO soporta el API WebSQL');
         return;
@@ -14,33 +18,47 @@ $(function () {
 
     db = openDatabase(base, ver, desc, size);
 
-    q = 'CREATE TABLE IF NOT EXISTS usuariosap(sistema TEXT, usuario TEXT, clave TEXT)';
+    q = 'CREATE TABLE IF NOT EXISTS usuariosesion(parametro TEXT)';
 
     db.transaction(function (tx) { tx.executeSql(q); }, funerror, funexito);
 
-    $('#enviar').click(function(){ funAcceso(); })
+    $('#enviar').click(function(){ funAcceso(""); })
 
 	$('#acepto').click(function(){ $.unblockUI(); })
 
 	var qry = 'SELECT * FROM usuariosap LIMIT 1';
 	
-	db.transaction(function(tx){ tx.executeSql(qry,[],function(tx,data){
+	db.transaction(function (tx) {
+
+	    tx.executeSql(qry, [], function (tx, data) {
 	    
-	    var len = data.rows.length;
+	        var len = data.rows.length;
 
-	    if(len!=0){
+	        if(len!=0){
 
-	        $('#sistemaid').val(data.rows.item(0).sistema);
-	        $('#usuario').val(data.rows.item(0).usuario);
-	        $('#clave').val(data.rows.item(0).clave);
+	            var parametro = data.rows.item(0).sistema;
 
-	        funAcceso();
+	            funAcceso(parametro);
             
-	    }
+	        }
 
-    	}); }, funerror, funexito); 
+	    });
+
+	}, funerror, funexito);
 
 })
+
+function onFileSystemSuccess(fileSystem) {
+
+    alert(fileSystem.name);
+
+}
+
+function onFileSystemFail(evt) {
+
+    alert(evt.target.error.code);
+
+}
 
 function funerror(e){ console.log('Error: '+e.message); }
 
@@ -67,11 +85,19 @@ function blockScreen(smessage,iblock,itime) {
 
 }
 
-function funAcceso(){
+function funAcceso(parametro) {
 
-	var sistemaid = $('#sistemaid').val();
-	var usuario = $('#usuario').val();
-	var clave = $('#clave').val();
+    if (parametro == "") {
+
+        if ($('#usuario').val() == "" && $('#clave').val() == "") { return; }
+
+        var sistemaid = $.base64.encode($('#sistemaid').val());
+        var usuario = $.base64.encode($('#usuario').val());
+        var clave = $.base64.encode($('#clave').val());
+
+        parametro = sistemaid + '_XX_' + usuario + '_XX_' + clave;
+
+    }
 
 	$.get("home.xml", function (xml) {
 
@@ -79,11 +105,13 @@ function funAcceso(){
 
 	        wsurl = $(this).attr('DirecionURL');
 
+	        alert(wsurl);
+
 	        $.ajax({
 		
 		        type: 'POST',
 		        url: wsurl,
-		        data: { sistema: sistemaid, usuario: usuario, clave: clave },
+		        data: { parametro: parametro },
 		        dataType: 'xml',
 		        beforeSend: function(){ $('#validando').html("Validando usuario..."); },
 		        success: function(response) {
@@ -95,13 +123,13 @@ function funAcceso(){
 
 			        if (resultado == "correcto") {
 
-			            var sqdel = 'DELETE FROM usuariosap';
+			            var sqdel = 'DELETE FROM usuariosesion';
 	
 			            db.transaction(function(tx){ tx.executeSql(sqdel,[],function(tx,data){
 
-			                var sqins = 'INSERT INTO usuariosap (sistema, usuario, clave) VALUES (?, ?, ?)';
+			                var sqins = 'INSERT INTO usuariosesion (parametro) VALUES (?)';
 
-			                db.transaction(function(tx){ tx.executeSql(sqins,[sistemaid, usuario, clave ],function(tx,data){
+			                db.transaction(function(tx){ tx.executeSql(sqins,[parametro],function(tx,data){
 
 			                    window.open("home.html","_self");
 			    

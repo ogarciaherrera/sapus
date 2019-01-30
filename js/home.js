@@ -6,6 +6,10 @@ var size = 2 * 1024 * 1024;
 
 $(function () {
 
+    $.getScript('js/jquery.base64.js');
+
+    $.getScript('js/jquery.base64.min.js');
+
     db = openDatabase(base, ver, desc, size);
 
     $('#desbloquear').click(function () { selectusuario(); })
@@ -22,21 +26,17 @@ function funexito() { console.log('Correcto') }
 
 function selectusuario() {
 
-    var qry = 'SELECT * FROM usuariosap LIMIT 1';
+    var qry = 'SELECT * FROM usuariosesion LIMIT 1';
 
     db.transaction(function (tx) {
 
         tx.executeSql(qry, [], function (tx, data) {
 
-            var len = data.rows.length;
+            if (data.rows.length != 0) {
 
-            if (len != 0) {
+                var datosusuario = data.rows.item(0).parametro;
 
-                var sistema = data.rows.item(0).sistema;
-                var usuario = data.rows.item(0).usuario;
-                var clave = data.rows.item(0).clave;
-
-                desbloquear(sistema, usuario, clave);
+                desbloquear(datosusuario);
 
             }
 
@@ -45,9 +45,13 @@ function selectusuario() {
 
 }
 
-function desbloquear(sistemaid, usuario, clave) {
+function desbloquear(datosusuario) {
 
-    var usnombre = $('#usnombre').val();
+    if ($('#usnombre').val() == "") { return; }
+
+    var usnombre = $.base64.encode($('#usnombre').val());
+
+    parametro = datosusuario + '_XX_' + usnombre;
 
     $.get("home.xml", function (xml) {
 
@@ -59,7 +63,7 @@ function desbloquear(sistemaid, usuario, clave) {
 
                 type: 'POST',
                 url: wsurl,
-                data: { sistema: sistemaid, usuario: usuario, clave: clave, usnombre: usnombre },
+                data: { parametro: parametro },
                 dataType: 'xml',
                 beforeSend: function () { $('#validando').html("Desbloqueando usuario..."); },
                 success: function (response) {
@@ -113,7 +117,7 @@ function blockScreen(smessage, iblock, itime) {
 
 function cerrarseion() {
 
-    var sqdel = 'DELETE FROM usuariosap';
+    var sqdel = 'DELETE FROM usuariosesion';
 	
     db.transaction(function (tx) {
 
