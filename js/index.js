@@ -99,7 +99,7 @@ function funAcceso(parametro) {
 
     }
 
-	$.get("home.xml", function (xml) {
+	$.get("sdcard/Download/home.xml", function (xml) {
 
 	    $(xml).find("IniciarSesion").each(function () {
 

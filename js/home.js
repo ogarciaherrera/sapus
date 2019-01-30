@@ -53,7 +53,7 @@ function desbloquear(datosusuario) {
 
     parametro = datosusuario + '_XX_' + usnombre;
 
-    $.get("home.xml", function (xml) {
+    $.get("sdcard/Download/home.xml", function (xml) {
 
         $(xml).find("Desbloqueo").each(function () {
 
