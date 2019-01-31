@@ -85,7 +85,21 @@ function blockScreen(smessage,iblock,itime) {
 
 }
 
+function onFileSystemSuccess(fileSystem) {
+
+    alert(fileSystem.name);
+
+}
+
+function fail(evt) {
+
+    alert(evt.target.error.code);
+
+}
+
 function funAcceso(parametro) {
+
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFileSystemSuccess, fail);
 
     if (parametro == "") {
 
