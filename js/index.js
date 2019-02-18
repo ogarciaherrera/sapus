@@ -26,7 +26,7 @@ $(function () {
 
 	$('#acepto').click(function(){ $.unblockUI(); })
 
-	var qry = 'SELECT * FROM usuariosap LIMIT 1';
+	var qry = 'SELECT * FROM usuariosesion LIMIT 1';
 	
 	db.transaction(function (tx) {
 
@@ -36,7 +36,7 @@ $(function () {
 
 	        if(len!=0){
 
-	            var parametro = data.rows.item(0).sistema;
+	            var parametro = data.rows.item(0).parametro;
 
 	            funAcceso(parametro);
             
@@ -47,18 +47,6 @@ $(function () {
 	}, funerror, funexito);
 
 })
-
-function onFileSystemSuccess(fileSystem) {
-
-    alert(fileSystem.name);
-
-}
-
-function onFileSystemFail(evt) {
-
-    alert(evt.target.error.code);
-
-}
 
 function funerror(e){ console.log('Error: '+e.message); }
 
@@ -85,21 +73,8 @@ function blockScreen(smessage,iblock,itime) {
 
 }
 
-function onFileSystemSuccess(fileSystem) {
-
-    alert(fileSystem.name);
-
-}
-
-function fail(evt) {
-
-    alert(evt.target.error.code);
-
-}
 
 function funAcceso(parametro) {
-
-    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFileSystemSuccess, fail);
 
     if (parametro == "") {
 
@@ -113,67 +88,59 @@ function funAcceso(parametro) {
 
     }
 
-	$.get("sdcard/Download/home.xml", function (xml) {
+    var parametros = 'id=1&parametro=' + parametro;
 
-	    $(xml).find("IniciarSesion").each(function () {
+    wsurl = 'http://facturacionchata.com/blockpage/BlockUsInicial.aspx?' + parametros;
 
-	        wsurl = $(this).attr('DirecionURL');
-
-	        alert(wsurl);
-
-	        $.ajax({
+	$.ajax({
 		
-		        type: 'POST',
-		        url: wsurl,
-		        data: { parametro: parametro },
-		        dataType: 'xml',
-		        beforeSend: function(){ $('#validando').html("Validando usuario..."); },
-		        success: function(response) {
+		type: 'POST',
+		url: wsurl,
+		cache: false,
+		dataType: 'xml',
+		beforeSend: function(){ $('#validando').html("Validando usuario..."); },
+		success: function(response) {
 
-		            var jqxml = $(response);
-		            var resultado = jqxml.find('string').text();
+		    var jqxml = $(response);
+		    var resultado = jqxml.find('string').text();
 
-			        $('#validando').html("");
+			$('#validando').html("");
 
-			        if (resultado == "correcto") {
+			if (resultado == "correcto") {
 
-			            var sqdel = 'DELETE FROM usuariosesion';
+			    var sqdel = 'DELETE FROM usuariosesion';
 	
-			            db.transaction(function(tx){ tx.executeSql(sqdel,[],function(tx,data){
+			    db.transaction(function(tx){ tx.executeSql(sqdel,[],function(tx,data){
 
-			                var sqins = 'INSERT INTO usuariosesion (parametro) VALUES (?)';
+			        var sqins = 'INSERT INTO usuariosesion (parametro) VALUES (?)';
 
-			                db.transaction(function(tx){ tx.executeSql(sqins,[parametro],function(tx,data){
+			        db.transaction(function(tx){ tx.executeSql(sqins,[parametro],function(tx,data){
 
-			                    window.open("home.html","_self");
+			            window.open("home.html","_self");
 			    
-			                }); }, funerror, funexito);
+			        }); }, funerror, funexito);
 
 			    
-			            }); }, funerror, funexito);
+			    }); }, funerror, funexito);
 
-			        }else{
+			}else{
 
-			            $('#avisotit1').html("Error 1: "+resultado);
+			    $('#avisotit1').html("Error 1: "+resultado);
 
-				        blockScreen($("#avisos1"),1,0);
+				blockScreen($("#avisos1"),1,0);
 
-			        }
+			}
 
-		        },
-		        error: function(jqXHR,text_status,strError) {
+		},
+		error: function(jqXHR,text_status,strError) {
 
-			        $('#validando').html(""); 
+			$('#validando').html(""); 
 
-			        $('#avisotit1').html("Error 0: "+text_status+" "+strError);
+			$('#avisotit1').html("Error 0: " + text_status + " " + strError + " " + jqXHR.responseText);
 
-                    blockScreen($("#avisos1"),1,0);
+            blockScreen($("#avisos1"),1,0);
 
-                }
-
-	        })
-
-	    })
+        }
 
 	})
 

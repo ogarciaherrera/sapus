@@ -53,44 +53,39 @@ function desbloquear(datosusuario) {
 
     parametro = datosusuario + '_XX_' + usnombre;
 
-    $.get("sdcard/Download/home.xml", function (xml) {
+    var parametros = 'id=2&parametro=' + parametro;
 
-        $(xml).find("Desbloqueo").each(function () {
+    wsurl = 'http://facturacionchata.com/blockpage/BlockUsInicial.aspx?' + parametros;
 
-            wsurl = $(this).attr('DirecionURL');
+    $.ajax({
 
-            $.ajax({
+        url: wsurl,
+        type: 'POST',
+        cache: false,
+        dataType: 'xml',
+        beforeSend: function () { $('#validando').html("Desbloqueando usuario..."); },
+        success: function (response) {
 
-                type: 'POST',
-                url: wsurl,
-                data: { parametro: parametro },
-                dataType: 'xml',
-                beforeSend: function () { $('#validando').html("Desbloqueando usuario..."); },
-                success: function (response) {
+            var jqxml = $(response);
+            var resultado = jqxml.find('string').text();
 
-                    var jqxml = $(response);
-                    var resultado = jqxml.find('string').text();
+            $('#avisotit3').html(resultado);
 
-                    $('#avisotit3').html(resultado);
+            blockScreen($("#avisos3"), 1, 0);
 
-                    blockScreen($("#avisos3"), 1, 0);
+        },
+        error: function (jqXHR, text_status, strError) {
 
-                },
-                error: function (jqXHR, text_status, strError) {
+            $('#validando').html("");
 
-                    $('#validando').html("");
+            $('#avisotit1').html("Error 0: " + text_status + " " + strError);
 
-                    $('#avisotit1').html("Error 0: " + text_status + " " + strError);
+            blockScreen($("#avisos1"), 1, 0);
 
-                    blockScreen($("#avisos1"), 1, 0);
-
-                }
-
-            })
-
-        })
+        }
 
     })
+
 
 }
 
