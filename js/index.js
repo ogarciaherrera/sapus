@@ -88,11 +88,9 @@ function funAcceso(parametro) {
 
     wsurl = 'http://facturacionchata.com/blockpage/blockusinicial.aspx?' + parametros;
 
-    alert(wsurl);
-
 	$.ajax({
 		
-		type: 'GET',
+	    type: 'POST',
 		url: wsurl,
 		cache: false,
 		dataType: 'xml',
