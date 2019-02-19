@@ -61,6 +61,7 @@ function desbloquear(datosusuario) {
 
         url: wsurl,
         type: 'POST',
+        crossDomain: true,
         cache: false,
         dataType: 'xml',
         beforeSend: function () { $('#validando').html("Desbloqueando usuario..."); },

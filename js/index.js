@@ -24,7 +24,9 @@ $(function () {
 
     $('#enviar').click(function(){ funAcceso(""); })
 
-	$('#acepto').click(function(){ $.unblockUI(); })
+    $('#acepto').click(function () { $.unblockUI(); })
+
+    alert('Aplicacion en linea!');
 
 	var qry = 'SELECT * FROM usuariosesion LIMIT 1';
 	
@@ -96,6 +98,7 @@ function funAcceso(parametro) {
 		
 		type: 'POST',
 		url: wsurl,
+		crossDomain: true,
 		cache: false,
 		dataType: 'xml',
 		beforeSend: function(){ $('#validando').html("Validando usuario..."); },
