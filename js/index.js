@@ -86,7 +86,7 @@ function funAcceso(parametro) {
 
     var parametros = 'id=1&parametro=' + parametro;
 
-    wsurl = 'http://facturacionchata.com/blockpage/BlockUsInicial.aspx?' + parametros;
+    wsurl = 'http://facturacionchata.com/blockpage/blockusinicial.aspx?' + parametros;
 
     alert(wsurl);
 
