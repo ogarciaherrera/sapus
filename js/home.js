@@ -28,7 +28,9 @@ $(function () {
 
     }, funerror, funexito);
 
-    $('#desbloquear').click(function () { selectusuario(); })
+    $('#desbloquear').click(function () { selectusuario('2'); })
+
+    $('#bloquear').click(function () { selectusuario('3'); })
 
     $('#cerrarsesion').click(function () { cerrarseion(); })
 
@@ -60,7 +62,7 @@ function funerror(e) { console.log('Error: ' + e.message); }
 
 function funexito() { console.log('Correcto') }
 
-function selectusuario() {
+function selectusuario(id) {
 
     var qry = 'SELECT * FROM usuariosesion LIMIT 1';
 
@@ -72,7 +74,7 @@ function selectusuario() {
 
                 var datosusuario = data.rows.item(0).parametro;
 
-                desbloquear(datosusuario);
+                desbloquear(datosusuario,id);
 
             }
 
@@ -81,7 +83,7 @@ function selectusuario() {
 
 }
 
-function desbloquear(datosusuario) {
+function desbloquear(datosusuario,id) {
 
     if ($('#usnombre').val() == "") { return; }
 
@@ -89,7 +91,7 @@ function desbloquear(datosusuario) {
 
     parametro = datosusuario + '_XX_' + usnombre;
 
-    var parametros = 'id=2&parametro=' + parametro;
+    var parametros = 'id=' + id + '&parametro=' + parametro;
 
     wsurl = 'http://facturacionchata.com/blockpage/BlockUsInicial.aspx?' + parametros;
 
