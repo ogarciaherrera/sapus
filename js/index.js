@@ -12,6 +12,8 @@ $(function () {
         return;
     }
 
+    document.addEventListener("backbutton", onBackKeyDown, false);
+
     db = openDatabase(base, ver, desc, size);
 
     q = 'CREATE TABLE IF NOT EXISTS usuariosesion(parametro TEXT)';
@@ -43,6 +45,8 @@ $(function () {
 	}, funerror, funexito);
 
 })
+
+function onBackKeyDown() { navigator.app.exitApp(); }
 
 function funerror(e){ console.log('Error: '+e.message); }
 

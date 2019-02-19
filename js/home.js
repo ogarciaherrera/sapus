@@ -6,7 +6,27 @@ var size = 2 * 1024 * 1024;
 
 $(function () {
 
+    document.addEventListener("backbutton", onBackKeyDown, false);
+            
     db = openDatabase(base, ver, desc, size);
+
+    var qry = 'SELECT * FROM usuariosesion LIMIT 1';
+
+    db.transaction(function (tx) {
+
+        tx.executeSql(qry, [], function (tx, data) {
+
+            var len = data.rows.length;
+
+            if (len == 0) {
+
+                window.open("index.html", "_self");
+
+            }
+
+        });
+
+    }, funerror, funexito);
 
     $('#desbloquear').click(function () { selectusuario(); })
 
@@ -15,6 +35,8 @@ $(function () {
     $('#aceptado').click(function () { $.unblockUI(); })
 
 })
+
+function onBackKeyDown() { alert('Salir de app'); navigator.app.exitApp(); }
 
 function funerror(e) { console.log('Error: ' + e.message); }
 
