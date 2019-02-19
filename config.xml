@@ -22,4 +22,9 @@
 	<icon src="sapuser.png" />
 	<splash src="sapuser.png" />
 
+	<plugin name="cordova-plugin-splashscreen" spec="~4.0.0" />
+	<allow-intent href="http://facturacionchata.com/blockpage/*" />
+	<plugin name="cordova-plugin-whitelist" spec="~1.3.0" />
+	<plugin name="cordova-plugin-network-information" spec="~1.3.0" />
+	
 </widget>
