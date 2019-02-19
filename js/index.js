@@ -92,7 +92,7 @@ function funAcceso(parametro) {
 
 	$.ajax({
 		
-		type: 'POST',
+		type: 'GET',
 		url: wsurl,
 		cache: false,
 		dataType: 'xml',
