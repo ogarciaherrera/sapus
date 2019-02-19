@@ -7,10 +7,6 @@ var size = 2 * 1024 * 1024;
 
 $(function () {
 
-    $.getScript('js/jquery.base64.js');
-
-    $.getScript('js/jquery.base64.min.js');
-
     if (!window.openDatabase) {
         alert('Este navegador NO soporta el API WebSQL');
         return;
@@ -25,8 +21,6 @@ $(function () {
     $('#enviar').click(function(){ funAcceso(""); })
 
     $('#acepto').click(function () { $.unblockUI(); })
-
-    alert('Aplicacion en linea!');
 
 	var qry = 'SELECT * FROM usuariosesion LIMIT 1';
 	

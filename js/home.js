@@ -6,10 +6,6 @@ var size = 2 * 1024 * 1024;
 
 $(function () {
 
-    $.getScript('js/jquery.base64.js');
-
-    $.getScript('js/jquery.base64.min.js');
-
     db = openDatabase(base, ver, desc, size);
 
     $('#desbloquear').click(function () { selectusuario(); })
