@@ -36,7 +36,25 @@ $(function () {
 
 })
 
-function onBackKeyDown() { alert('Salir de app'); navigator.app.exitApp(); }
+function onConfirm(button) {
+
+    if (button == "Si") { navigator.app.exitApp(); }
+
+}
+
+function showConfirm() {
+
+    navigator.notification.confirm(
+        'Salir de la App',  // message
+        onConfirm,          // callback to invoke with index of button pressed
+        'Salir',            // title
+        'Si,No'             // buttonLabels
+
+    );
+
+}
+
+function onBackKeyDown() { showConfirm(); }
 
 function funerror(e) { console.log('Error: ' + e.message); }
 
